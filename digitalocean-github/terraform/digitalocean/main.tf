@@ -34,18 +34,13 @@ locals {
 }
 
 data "digitalocean_kubernetes_versions" "versions" {
-  version_prefix = "1.30."
-}
-
-locals {
-  latest_version = reverse(sort(data.digitalocean_kubernetes_versions.versions.versions))[0]
+  version_prefix = "1.29."
 }
 
 resource "digitalocean_kubernetes_cluster" "kubefirst" {
   name    = local.cluster_name
   region  = lower(var.region)
-  # version = data.digitalocean_kubernetes_versions.versions.latest_version
-  version = local.latest_version
+  version = data.digitalocean_kubernetes_versions.versions.latest_version
 
   node_pool {
     name       = local.pool_name
